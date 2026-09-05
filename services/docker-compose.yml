@@ -37,12 +37,14 @@ services:
       - "5003:5003"
     networks:
       - food-network
+    volumes:
+      - notification-data:/data
 
 networks:
   food-network:
-    driver: bridge
 
 volumes:
   order-data:
   user-data:
   payment-data:
+  notification-data:
