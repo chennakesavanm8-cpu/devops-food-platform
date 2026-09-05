@@ -1,0 +1,45 @@
+pipeline {
+    agent any
+
+    stages {
+
+        stage('Checkout') {
+            steps {
+                echo 'Checking project files...'
+                sh 'git status'
+            }
+        }
+
+        stage('Build Docker Images') {
+            steps {
+                echo 'Building Docker images...'
+                sh 'cd services && docker compose build'
+            }
+        }
+
+        stage('Deploy Services') {
+            steps {
+                echo 'Starting Docker containers...'
+                sh 'cd services && docker compose up -d'
+            }
+        }
+
+        stage('Check Containers') {
+            steps {
+                echo 'Checking running containers...'
+                sh 'docker compose -f services/docker-compose.yml ps'
+            }
+        }
+
+    }
+
+    post {
+        success {
+            echo 'Deployment successful!'
+        }
+
+        failure {
+            echo 'Pipeline failed!'
+        }
+    }
+}
