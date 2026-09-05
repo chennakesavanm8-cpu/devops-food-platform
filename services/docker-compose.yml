@@ -1,0 +1,48 @@
+services:
+
+  order-service:
+    build:
+      context: ./order-service
+    ports:
+      - "5001:5001"
+    networks:
+      - food-network
+    volumes:
+      - order-data:/data
+
+  user-service:
+    build:
+      context: ./user-service
+    ports:
+      - "5000:5000"
+    networks:
+      - food-network
+    volumes:
+      - user-data:/data
+
+  payment-service:
+    build:
+      context: ./payment-service
+    ports:
+      - "5002:5002"
+    networks:
+      - food-network
+    volumes:
+      - payment-data:/data
+
+  notification-service:
+    build:
+      context: ./notification-service
+    ports:
+      - "5003:5003"
+    networks:
+      - food-network
+
+networks:
+  food-network:
+    driver: bridge
+
+volumes:
+  order-data:
+  user-data:
+  payment-data:
